@@ -1,6 +1,6 @@
-package parameter
+package gage
 
-func CheckNumber(num int) string {
+func CheckNum(num int) string {
 	if num%2 == 0 {
 		return "GENAP"
 	} else {
