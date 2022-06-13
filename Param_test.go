@@ -7,40 +7,68 @@ import (
 )
 
 func TestEvenSucces(t *testing.T) {
-	result := CheckNum(3)
-	assert.Equal(t, "genap", result, "Test result must be 'genap' ")
+	result := CheckNum(1, 2, 3, 4, 5)
+	assert.Equal(t, "ganjil,genap,ganjil,genap,ganjil", result)
 }
-
-func TestOddFailed(t *testing.T) {
-	result := CheckNum(2)
-	assert.Equal(t, "ganjil", result, "Test result must be 'ganjil' ")
+func BenchmarkTestEvenSuccess(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		CheckNum(1, 2, 3, 4, 5)
+	}
 }
 
 func TestEvenOddWithTable(t *testing.T) {
 	test := []struct {
 		name     string
-		request  int
+		request  []int
 		expected string
 	}{
 		{
 			name:     "Check even number",
-			request:  2,
-			expected: "genap",
+			request:  []int{0, 2, 4},
+			expected: "genap, genap, genap",
 		}, {
 			name:     "Check odd number",
-			request:  1,
-			expected: "ganjil",
+			request:  []int{1, 3, 5},
+			expected: "ganjil,ganjil,ganjil",
 		}, {
-			name:     "Check zero",
-			request:  0,
-			expected: "genap",
+			name:     "Check even or odd",
+			request:  []int{1, 2, 3, 4, 5},
+			expected: "ganjil,genap,ganjil,genap,ganjil",
 		},
 	}
 
 	for _, tes := range test {
 		t.Run(tes.name, func(t *testing.T) {
-			result := CheckNum(tes.request)
+			result := CheckNum(tes.request...)
 			assert.Equal(t, tes.expected, result)
+		})
+	}
+}
+
+func BenchmarkTestEvenOddWithTable(b *testing.B) {
+	benchmarks := []struct {
+		name     string
+		request  []int
+		expected string
+	}{
+		{
+			name:     "Check even number",
+			request:  []int{0, 2, 4},
+			expected: "genap,genap,genap",
+		}, {
+			name:     "Check odd number",
+			request:  []int{1, 3, 5},
+			expected: "ganjil,ganjil,ganjil",
+		}, {
+			name:     "Check even or odd",
+			request:  []int{1, 2, 3, 4, 5},
+			expected: "ganjil,genap,ganjil,genap,ganjil",
+		},
+	}
+
+	for _, benchmark := range benchmarks {
+		b.Run(benchmark.name, func(b *testing.B) {
+			CheckNum(benchmark.request...)
 		})
 	}
 }
