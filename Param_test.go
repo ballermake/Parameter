@@ -8,7 +8,7 @@ import (
 
 func TestEvenSucces(t *testing.T) {
 	result := CheckNum(1, 2, 3, 4, 5)
-	assert.Equal(t, "ganjil,genap,ganjil,genap,ganjil", result)
+	assert.Equal(t, "GANJIL, GENAP, GANJIL, GENAP, GANJIL", result)
 }
 func BenchmarkTestEvenSuccess(b *testing.B) {
 	for i := 0; i < b.N; i++ {
@@ -17,7 +17,7 @@ func BenchmarkTestEvenSuccess(b *testing.B) {
 }
 
 func TestEvenOddWithTable(t *testing.T) {
-	test := []struct {
+	tests := []struct {
 		name     string
 		request  []int
 		expected string
@@ -25,22 +25,22 @@ func TestEvenOddWithTable(t *testing.T) {
 		{
 			name:     "Check even number",
 			request:  []int{0, 2, 4},
-			expected: "genap, genap, genap",
+			expected: "GENAP, GENAP, GENAP",
 		}, {
 			name:     "Check odd number",
 			request:  []int{1, 3, 5},
-			expected: "ganjil,ganjil,ganjil",
+			expected: "GANJIL, GANJIL, GANJIL",
 		}, {
 			name:     "Check even or odd",
 			request:  []int{1, 2, 3, 4, 5},
-			expected: "ganjil,genap,ganjil,genap,ganjil",
+			expected: "GANJIL, GENAP, GANJIL, GENAP, GANJIL",
 		},
 	}
 
-	for _, tes := range test {
-		t.Run(tes.name, func(t *testing.T) {
-			result := CheckNum(tes.request...)
-			assert.Equal(t, tes.expected, result)
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			result := CheckNum(test.request...)
+			assert.Equal(t, test.expected, result)
 		})
 	}
 }
@@ -54,15 +54,15 @@ func BenchmarkTestEvenOddWithTable(b *testing.B) {
 		{
 			name:     "Check even number",
 			request:  []int{0, 2, 4},
-			expected: "genap,genap,genap",
+			expected: "GENAP, GENAP, GENAP",
 		}, {
 			name:     "Check odd number",
 			request:  []int{1, 3, 5},
-			expected: "ganjil,ganjil,ganjil",
+			expected: "GANJIL, GANJIL, GANJIL",
 		}, {
 			name:     "Check even or odd",
 			request:  []int{1, 2, 3, 4, 5},
-			expected: "ganjil,genap,ganjil,genap,ganjil",
+			expected: "GANJIL, GENAP, GANJIL, GENAP, GANJIL",
 		},
 	}
 
